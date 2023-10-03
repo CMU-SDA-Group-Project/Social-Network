@@ -1,10 +1,10 @@
-package com.hansy.accessingdataneo4j;
+package core;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AccessingDataNeo4jApplicationTests {
+class SocialNetworkApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,5 +1,7 @@
-package com.hansy.accessingdataneo4j;
+package web;
 
+import core.Person;
+import core.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -13,12 +15,12 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableNeo4jRepositories
-public class AccessingDataNeo4jApplication {
+public class SocialNetworkApplication {
 
-    private final static Logger log = LoggerFactory.getLogger(AccessingDataNeo4jApplication.class);
+    private final static Logger log = LoggerFactory.getLogger(SocialNetworkApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(AccessingDataNeo4jApplication.class, args);
+        SpringApplication.run(SocialNetworkApplication.class, args);
         System.exit(0);
     }
 

@@ -1,4 +1,4 @@
-package com.hansy.accessingdataneo4j;
+package core;
 
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 

@@ -1,4 +1,4 @@
-package com.hansy.accessingdataneo4j;
+package core;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
