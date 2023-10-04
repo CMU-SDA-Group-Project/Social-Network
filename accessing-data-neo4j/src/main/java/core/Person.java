@@ -1,9 +1,5 @@
 package core;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.*;
 
 import java.util.Collections;
@@ -12,10 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@NodeEntity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@NodeEntity(label = "person")
 public class Person {
 
     @Id
@@ -39,7 +32,6 @@ public class Person {
      * * https://dzone.com/articles/modelling-data-neo4j
      */
     // Important: the relationship should use @EqualsAndHashCode.Exclude,otherwise the lombok @Data will generate a stackoverflow error
-    @EqualsAndHashCode.Exclude
     @Relationship(type = "FRIEND", direction = Relationship.UNDIRECTED)
     public Set<Person> friends;
 
@@ -55,14 +47,38 @@ public class Person {
         this.credit += credit;
     }
 
-
     @Override
     public String toString() {
-        return this.name + "'s friends => "
+        return this.name + "'s teammates => "
                 + Optional.ofNullable(this.friends).orElse(
-                Collections.emptySet()).stream()
+                        Collections.emptySet()).stream()
                 .map(Person::getName)
                 .collect(Collectors.toList());
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Long credit) {
+        this.credit = credit;
     }
 
 }
