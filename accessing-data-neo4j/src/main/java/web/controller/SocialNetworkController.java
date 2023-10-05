@@ -1,13 +1,7 @@
 package web.controller;
 
-import api.req.AddFriendRequest;
-import api.req.CreateUserRequest;
-import api.req.DeleteUserRequest;
-import api.req.RemoveFriendRequest;
-import api.res.AddFriendResponse;
-import api.res.CreateUserResponse;
-import api.res.DeleteUserResponse;
-import api.res.RemoveFriendResponse;
+import api.req.*;
+import api.res.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,6 +39,11 @@ public class SocialNetworkController {
     @PostMapping("/removeFriend")
     public RemoveFriendResponse removeFriend(@Valid @RequestBody RemoveFriendRequest request) {
         return socialNetwork.removeFriend(request);
+    }
+
+    @PostMapping("/getFriends")
+    public GetFriendsResponse getFriends(@Valid @RequestBody GetFriendsRequest request) {
+        return socialNetwork.getFriends(request);
     }
 
 }

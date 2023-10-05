@@ -14,4 +14,9 @@ public interface FriendRepository extends Neo4jRepository<Friend,Long> {
             "WHERE ID(startNode) = $startNodeId AND ID(endNode) = $endNodeId " +
             "RETURN relationship")
     Friend findRelationshipByNodeIds(@Param("startNodeId") Long startNodeId, @Param("endNodeId") Long endNodeId);
+
+    @Query("MATCH (startNode)-[relationship]->(endNode) " +
+            "WHERE ID(startNode) = $startNodeId " +
+            "RETURN endNode")
+    List<Person> getFriendByUserId(@Param("startNodeId") Long startNodeId);
 }

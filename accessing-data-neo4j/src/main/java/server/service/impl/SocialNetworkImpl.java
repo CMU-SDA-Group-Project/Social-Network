@@ -159,6 +159,22 @@ public class SocialNetworkImpl implements SocialNetworkService {
 
     @Override
     public GetFriendsResponse getFriends(GetFriendsRequest request) {
-        return null;
+        GetFriendsResponse response = new GetFriendsResponse();
+
+        try {
+            Person person = personRepository.findByUserId(request.getUserId());
+            if (person == null) {
+                throw new Exception("user not found");
+            }
+            List<Person> friends = friendRepository.getFriendByUserId(person.getId());
+            System.out.println(friends);
+            response.setFriends(friends);
+            response.setSuccess(true);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
     }
 }
