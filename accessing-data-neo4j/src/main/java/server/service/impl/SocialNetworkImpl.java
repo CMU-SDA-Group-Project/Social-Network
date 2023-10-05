@@ -2,6 +2,8 @@ package server.service.impl;
 
 import api.req.*;
 import api.res.*;
+import core.Friend;
+import core.FriendRepository;
 import core.Person;
 import core.PersonRepository;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import server.service.SocialNetworkService;
 import web.SocialNetworkApplication;
 
@@ -23,70 +26,135 @@ import java.util.List;
 @Service
 public class SocialNetworkImpl implements SocialNetworkService {
 
-    @Resource
+    @Autowired
     PersonRepository personRepository;
+
+    @Autowired
+    FriendRepository friendRepository;
 
     private final static Logger log = LoggerFactory.getLogger(SocialNetworkApplication.class);
 
     @Override
     public CreateUserResponse createUser(CreateUserRequest request) {
-        System.out.println("createUser");
 
-        personRepository.deleteAll();
+        System.out.println("createUser");
+        //personRepository.deleteAll();
+
+        CreateUserResponse response = new CreateUserResponse();
 
         // Names should be unique
-        Person greg = new Person("Greg");
-        Person roy = new Person("Roy");
-        Person craig = new Person("Craig");
-        Person craigs = new Person("Craigss");
+        try {
+            if (personRepository.findByUserId(request.getUserId()) != null) {
+                throw new Exception("user already exists");
+            }
 
-        List<Person> team = Arrays.asList(greg, roy, craig, craigs);
+            //TODO check if user already exists:userId
+            Person greg = Person.builder().userId(request.getUserId()).name(request.getName()).build();
+            personRepository.save(greg);
+            response.setSuccess(true);
+            System.out.println(personRepository.findAll());
 
-        log.info("Before linking up with Neo4j...");
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
+        }
 
-        team.forEach(person -> log.info("\t" + person.toString()));
-
-        personRepository.save(greg);
-        personRepository.save(roy);
-        personRepository.save(craig);
-        personRepository.save(craigs);
-
-        greg = personRepository.findByName(greg.getName());
-        greg.addFriend(roy);
-        greg.addFriend(craig);
-        personRepository.save(greg);
-
-        roy = personRepository.findByName(roy.getName());
-        roy.addFriend(craig);
-        //We already know that roy works with greg
-        personRepository.save(roy);
-
-        //We already know craig works with roy and greg
-
-        log.info("Lookup each person by name...");
-        team.forEach(person -> log.info("\t" + personRepository.findByName(person.getName()).toString()));
-
-        List<Person> friends = personRepository.findByFriendsName(greg.getName());
-        log.info("The following have Greg as a friend...");
-        friends.forEach(person -> log.info("\t" + person.getName()));
-
-
-        return null;
+        return response;
     }
 
     @Override
     public DeleteUserResponse deleteUser(DeleteUserRequest request) {
-        return null;
+
+        System.out.println("deleteUser");
+        DeleteUserResponse response = new DeleteUserResponse();
+
+        try {
+            Person person = personRepository.findByUserId(request.getUserId());
+            if (person == null) {
+                throw new Exception("user not found");
+            }
+            personRepository.delete(person);
+            response.setSuccess(true);
+            System.out.println(personRepository.findAll());
+
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
+        }
+        return response;
+
     }
 
     @Override
     public AddFriendResponse addFriend(AddFriendRequest request) {
-        return null;
+        System.out.println("addFriend");
+        AddFriendResponse response = new AddFriendResponse();
+
+        try {
+            //TODO check if user already exists:userId
+            Person person = personRepository.findByUserId(request.getUserId());
+            if (person == null) {
+                throw new Exception("user not found");
+            }
+            Person friend = personRepository.findByUserId(request.getFriendId());
+            if (friend == null) {
+                throw new Exception("friend not found");
+            }
+            Friend friend1 = Friend.builder().person(person).friend(friend).build();
+            Friend friend2 = Friend.builder().person(friend).friend(person).build();
+            friendRepository.save(friend1);
+            friendRepository.save(friend2);
+
+            response.setSuccess(true);
+            System.out.println(friendRepository.findAll());
+
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+
     }
 
     @Override
+    @Transactional
     public RemoveFriendResponse removeFriend(RemoveFriendRequest request) {
-        return null;
+        System.out.println("removeFriend");
+        RemoveFriendResponse response = new RemoveFriendResponse();
+
+        try {
+            //TODO check if user already exists:userId
+
+            Person person = personRepository.findByUserId(request.getUserId());
+            if (person == null) {
+                throw new Exception("user not found");
+            }
+            Person friend = personRepository.findByUserId(request.getFriendId());
+            if (friend == null) {
+                throw new Exception("friend not found");
+            }
+
+
+            Friend friendship1 = friendRepository.findRelationshipByNodeIds(person.getId(), friend.getId());
+            Friend friendship2 = friendRepository.findRelationshipByNodeIds(friend.getId(), person.getId());
+            if (friendship1 != null) {
+                friendRepository.delete(friendship1);
+            }
+            if (friendship2 != null) {
+                friendRepository.delete(friendship2);
+            }
+
+            response.setSuccess(true);
+            System.out.println(friendRepository.findAll());
+
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
+        }
+
+
+        return response;
     }
 
     @Override

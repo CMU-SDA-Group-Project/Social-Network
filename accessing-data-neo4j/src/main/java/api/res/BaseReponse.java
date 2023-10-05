@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@Builder
-public class DeleteUserResponse extends BaseReponse{
+public class BaseReponse {
+    private Boolean success;
+    private String message;
 }

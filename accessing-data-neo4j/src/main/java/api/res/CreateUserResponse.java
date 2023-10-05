@@ -1,4 +1,13 @@
 package api.res;
 
-public class CreateUserResponse {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@Builder
+public class CreateUserResponse extends BaseReponse{
+
 }
