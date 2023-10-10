@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 @Data
 public class AddFriendRequest {
 
-    @NotNull(message = "userId cannot be null")
-    private Long userId;
-    @NotNull(message = "friendId cannot be null")
-    private Long friendId;
+    @NotNull(message = "userName cannot be null")
+    private String userName;
+    @NotNull(message = "friendName cannot be null")
+    private String friendName;
 }

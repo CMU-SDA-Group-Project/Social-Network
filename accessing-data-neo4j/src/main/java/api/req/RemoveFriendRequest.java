@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class RemoveFriendRequest {
     @NotNull(message = "userId cannot be null")
-    private Long userId;
+    private String userName;
     @NotNull(message = "friendId cannot be null")
-    private Long friendId;
+    private String friendName;
 }

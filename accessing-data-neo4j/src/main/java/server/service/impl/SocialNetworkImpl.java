@@ -2,6 +2,7 @@ package server.service.impl;
 
 import api.req.*;
 import api.res.*;
+import common.MD5Util;
 import core.Friend;
 import core.FriendRepository;
 import core.Person;
@@ -44,12 +45,13 @@ public class SocialNetworkImpl implements SocialNetworkService {
 
         // Names should be unique
         try {
-            if (personRepository.findByUserId(request.getUserId()) != null) {
+            if (personRepository.findByName(request.getName()) != null) {
                 throw new Exception("user already exists");
             }
 
             //TODO check if user already exists:userId
-            Person greg = Person.builder().userId(request.getUserId()).name(request.getName()).build();
+            String encryptedPassword = MD5Util.encrypt(request.getPassword());
+            Person greg = Person.builder().encryptedPassword(encryptedPassword) .name(request.getName()).build();
             personRepository.save(greg);
             response.setSuccess(true);
             System.out.println(personRepository.findAll());
@@ -69,7 +71,7 @@ public class SocialNetworkImpl implements SocialNetworkService {
         DeleteUserResponse response = new DeleteUserResponse();
 
         try {
-            Person person = personRepository.findByUserId(request.getUserId());
+            Person person = personRepository.findByName(request.getName());
             if (person == null) {
                 throw new Exception("user not found");
             }
@@ -92,11 +94,11 @@ public class SocialNetworkImpl implements SocialNetworkService {
 
         try {
             //TODO check if user already exists:userId
-            Person person = personRepository.findByUserId(request.getUserId());
+            Person person = personRepository.findByName(request.getUserName());
             if (person == null) {
                 throw new Exception("user not found");
             }
-            Person friend = personRepository.findByUserId(request.getFriendId());
+            Person friend = personRepository.findByName(request.getFriendName());
             if (friend == null) {
                 throw new Exception("friend not found");
             }
@@ -126,11 +128,11 @@ public class SocialNetworkImpl implements SocialNetworkService {
         try {
             //TODO check if user already exists:userId
 
-            Person person = personRepository.findByUserId(request.getUserId());
+            Person person = personRepository.findByName(request.getUserName());
             if (person == null) {
                 throw new Exception("user not found");
             }
-            Person friend = personRepository.findByUserId(request.getFriendId());
+            Person friend = personRepository.findByName(request.getFriendName());
             if (friend == null) {
                 throw new Exception("friend not found");
             }
@@ -162,11 +164,16 @@ public class SocialNetworkImpl implements SocialNetworkService {
         GetFriendsResponse response = new GetFriendsResponse();
 
         try {
-            Person person = personRepository.findByUserId(request.getUserId());
+            Person person = personRepository.findByName(request.getName());
             if (person == null) {
                 throw new Exception("user not found");
             }
             List<Person> friends = friendRepository.getFriendByUserId(person.getId());
+            //remove password
+            for (Person friend : friends) {
+                friend.setEncryptedPassword("");
+            }
+
             System.out.println(friends);
             response.setFriends(friends);
             response.setSuccess(true);

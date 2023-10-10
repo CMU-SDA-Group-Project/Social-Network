@@ -24,10 +24,11 @@ public class Person {
     @GeneratedValue
     private Long id;
 
-    @Property
-    private Long userId;
 
     @Property
     private String name;
+
+    @Property
+    private String encryptedPassword;
 
 }

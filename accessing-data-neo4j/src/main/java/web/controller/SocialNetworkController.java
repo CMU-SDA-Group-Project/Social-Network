@@ -3,10 +3,7 @@ package web.controller;
 import api.req.*;
 import api.res.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import server.service.impl.SocialNetworkImpl;
 
 import javax.validation.Valid;
@@ -44,6 +41,12 @@ public class SocialNetworkController {
     @PostMapping("/getFriends")
     public GetFriendsResponse getFriends(@Valid @RequestBody GetFriendsRequest request) {
         return socialNetwork.getFriends(request);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        System.out.println("test");
+        return "test";
     }
 
 }
