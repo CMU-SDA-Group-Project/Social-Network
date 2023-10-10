@@ -184,4 +184,24 @@ public class SocialNetworkImpl implements SocialNetworkService {
 
         return response;
     }
+
+    @Override
+    public AddCreditResponse addCredit(AddCreditRequest request) {
+        AddCreditResponse response = new AddCreditResponse();
+
+        try {
+            Person person = personRepository.findByName(request.getName());
+            if (person == null) {
+                throw new Exception("user not found");
+            }
+            person.setCredit(person.getCredit() + request.getCredit());
+            personRepository.save(person);
+            response.setSuccess(true);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
 }

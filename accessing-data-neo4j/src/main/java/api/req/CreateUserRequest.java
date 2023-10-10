@@ -11,8 +11,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CreateUserRequest {
 
-    //@NotNull(message = "userId cannot be null")
-    //private Long userId;
 
     @NotNull(message = "name cannot be null")
     private String name;

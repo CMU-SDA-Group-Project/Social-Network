@@ -10,4 +10,5 @@ public interface SocialNetworkService {
     AddFriendResponse addFriend(AddFriendRequest request);
     RemoveFriendResponse removeFriend(RemoveFriendRequest request);
     GetFriendsResponse getFriends(GetFriendsRequest request);
+    AddCreditResponse addCredit(AddCreditRequest request);
 }

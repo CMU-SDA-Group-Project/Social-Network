@@ -43,10 +43,8 @@ public class SocialNetworkController {
         return socialNetwork.getFriends(request);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        System.out.println("test");
-        return "test";
+    @PostMapping("/addCredit")
+    public AddCreditResponse addCredit(@Valid @RequestBody AddCreditRequest request) {
+        return socialNetwork.addCredit(request);
     }
-
 }

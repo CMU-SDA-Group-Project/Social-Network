@@ -24,11 +24,13 @@ public class Person {
     @GeneratedValue
     private Long id;
 
-
     @Property
     private String name;
 
     @Property
     private String encryptedPassword;
+
+    @Property
+    private Long credit=0L;
 
 }
