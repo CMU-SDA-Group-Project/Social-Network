@@ -10,15 +10,12 @@ import core.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.service.SocialNetworkService;
 import web.SocialNetworkApplication;
 
-import javax.annotation.Resource;
-import java.util.Arrays;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.List;
 
 /**
@@ -49,10 +46,17 @@ public class SocialNetworkImpl implements SocialNetworkService {
                 throw new Exception("user already exists");
             }
 
+            if(!request.getRole().equals("admin") && !request.getRole().equals("user")){
+                throw new Exception("role should be admin or user");
+            }
+
             //TODO check if user already exists:userId
-            String encryptedPassword = MD5Util.encrypt(request.getPassword());
-            Person greg = Person.builder().encryptedPassword(encryptedPassword) .name(request.getName()).build();
-            personRepository.save(greg);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encryptedPassword = passwordEncoder.encode(request.getPassword());
+            //String encryptedPassword = MD5Util.encrypt(request.getPassword());
+            Person p = Person.builder().encryptedPassword(encryptedPassword).name(request.getName())
+                    .role(request.getRole()).build();
+            personRepository.save(p);
             response.setSuccess(true);
             System.out.println(personRepository.findAll());
 

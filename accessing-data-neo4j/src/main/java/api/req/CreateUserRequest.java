@@ -18,4 +18,7 @@ public class CreateUserRequest {
     @NotNull(message = "password cannot be null")
     private String password;
 
+    @NotNull(message = "role cannot be null")
+    private String role;
+
 }
