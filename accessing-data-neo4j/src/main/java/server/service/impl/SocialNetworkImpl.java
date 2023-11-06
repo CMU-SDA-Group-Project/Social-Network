@@ -2,7 +2,9 @@ package server.service.impl;
 
 import api.req.*;
 import api.res.*;
+import common.Constants;
 import common.MD5Util;
+import common.RedisUtil;
 import core.Friend;
 import core.FriendRepository;
 import core.Person;
@@ -16,7 +18,10 @@ import server.service.SocialNetworkService;
 import web.SocialNetworkApplication;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author yunjia
@@ -29,6 +34,9 @@ public class SocialNetworkImpl implements SocialNetworkService {
 
     @Autowired
     FriendRepository friendRepository;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     private final static Logger log = LoggerFactory.getLogger(SocialNetworkApplication.class);
 
@@ -50,7 +58,6 @@ public class SocialNetworkImpl implements SocialNetworkService {
                 throw new Exception("role should be admin or user");
             }
 
-            //TODO check if user already exists:userId
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String encryptedPassword = passwordEncoder.encode(request.getPassword());
             //String encryptedPassword = MD5Util.encrypt(request.getPassword());
@@ -97,7 +104,6 @@ public class SocialNetworkImpl implements SocialNetworkService {
         AddFriendResponse response = new AddFriendResponse();
 
         try {
-            //TODO check if user already exists:userId
             Person person = personRepository.findByName(request.getUserName());
             if (person == null) {
                 throw new Exception("user not found");
@@ -130,7 +136,6 @@ public class SocialNetworkImpl implements SocialNetworkService {
         RemoveFriendResponse response = new RemoveFriendResponse();
 
         try {
-            //TODO check if user already exists:userId
 
             Person person = personRepository.findByName(request.getUserName());
             if (person == null) {
@@ -200,6 +205,12 @@ public class SocialNetworkImpl implements SocialNetworkService {
             }
             person.setCredit(person.getCredit() + request.getCredit());
             personRepository.save(person);
+
+            String val = person.getName();
+            String key = "credit";
+
+            redisUtil.zRemove(key, val);
+
             response.setSuccess(true);
         } catch (Exception e) {
             response.setSuccess(false);
@@ -207,5 +218,40 @@ public class SocialNetworkImpl implements SocialNetworkService {
         }
 
         return response;
+    }
+
+    @Override
+    public GetCreditResponse getCredit(GetCreditRequest request) {
+        GetCreditResponse response = new GetCreditResponse();
+        try {
+            // check the cache first
+            String key = "credit";
+            String val = request.getName();
+            Double credit = redisUtil.zScore(key, val);
+            if (credit != null) {
+
+                response.setCredit(Double.valueOf(credit).longValue());
+                response.setSuccess(true);
+                return response;
+            }else {
+                // if not in cache, get from db
+                Person person = personRepository.findByName(request.getName());
+                if (person == null) {
+                    throw new Exception("user not found");
+                }
+                response.setCredit(person.getCredit());
+                response.setSuccess(true);
+                // update redis using zset, adding expire time
+                redisUtil.zAdd(key, val, person.getCredit());
+                redisUtil.expire(key, Constants.REDIS_EXPIRE_TIME, TimeUnit.SECONDS);
+            }
+
+        }
+        catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
+        }
+        return response;
+
     }
 }

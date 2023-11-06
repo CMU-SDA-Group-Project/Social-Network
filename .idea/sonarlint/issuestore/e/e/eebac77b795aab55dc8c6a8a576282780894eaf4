@@ -1,37 +1,44 @@
 
-g	java:S112."FDefine and throw a dedicated exception instead of using a generic one.(†®Âûÿÿÿÿ8å¥Æ¶´1
-b	java:S1122"FDefine and throw a dedicated exception instead of using a generic one.(êÃ‡…8æ¥Æ¶´1
-g	java:S112P"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8æ¥Æ¶´1
-g	java:S112g"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8æ¥Æ¶´1
-b	java:S112k"FDefine and throw a dedicated exception instead of using a generic one.(¡µ´8æ¥Æ¶´1
-h	java:S112‰"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8æ¥Æ¶´1
-c	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(¡µ´8æ¥Æ¶´1
-h	java:S112­"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8æ¥Æ¶´1
-h	java:S112Ç"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8æ¥Æ¶´1
+g	java:S1126"FDefine and throw a dedicated exception instead of using a generic one.(†®Âûÿÿÿÿ8†ŒÈšº1
+b	java:S112:"FDefine and throw a dedicated exception instead of using a generic one.(êÃ‡…8†ŒÈšº1
+g	java:S112W"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8†ŒÈšº1
+g	java:S112m"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8†ŒÈšº1
+b	java:S112q"FDefine and throw a dedicated exception instead of using a generic one.(¡µ´8†ŒÈšº1
+h	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8†ŒÈšº1
+c	java:S112’"FDefine and throw a dedicated exception instead of using a generic one.(¡µ´8†ŒÈšº1
+h	java:S112²"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8†ŒÈšº1
+h	java:S112Ì"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8†ŒÈšº1
+h	java:S112ğ"FDefine and throw a dedicated exception instead of using a generic one.(àÏÑóøÿÿÿÿ8†ŒÈšº1
 q
-java:S1192P"ODefine a constant instead of duplicating this literal "user not found" 5 times.(àÏÑóøÿÿÿÿ8æ¥Æ¶´1
+java:S1192W"ODefine a constant instead of duplicating this literal "user not found" 6 times.(àÏÑóøÿÿÿÿ8‡ŒÈšº1
+_
+java:S6813 "BRemove this field injection and use constructor injection instead.(êæÄŞ8£ŒÈšº1
+_
+java:S6813#"BRemove this field injection and use constructor injection instead.(êæÄŞ8£ŒÈšº1
+_
+java:S6813&"BRemove this field injection and use constructor injection instead.(êæÄŞ8£ŒÈšº1
 Q
-java:S3416!"4Update this logger to use "SocialNetworkImpl.class".(Ì½×Ü8…¦Æ¶´1
+java:S3416)"4Update this logger to use "SocialNetworkImpl.class".(Ì½×Ü8£ŒÈšº1
 b
-java:S1124!"EReorder the modifiers to comply with the Java Language Specification.(Ì½×Ü8‡¦Æ¶´1
-G	java:S106&"+Replace this use of System.out by a logger.(Ãµğš8‰¦Æ¶´1
-]	java:S125'"<This block of commented-out lines of code should be removed.(ğ†ñôıÿÿÿÿ8‰¦Æ¶´1
-N
-java:S11355"2Complete the task associated to this TODO comment.(±‚Á_8Š¦Æ¶´1
-X	java:S1258"<This block of commented-out lines of code should be removed.(–¬§¡8‹¦Æ¶´1
-G	java:S106="+Replace this use of System.out by a logger.(ˆ¼Ğ²8Œ¦Æ¶´1
-G	java:S106J"+Replace this use of System.out by a logger.(øÿà8¦Æ¶´1
-G	java:S106T"+Replace this use of System.out by a logger.(ˆ¼Ğ²8¦Æ¶´1
-G	java:S106`"+Replace this use of System.out by a logger.(¢†˜ı8¦Æ¶´1
-N
-java:S1135d"2Complete the task associated to this TODO comment.(±‚Á_8¦Æ¶´1
-G	java:S106s"+Replace this use of System.out by a logger.(ğÚ›8¦Æ¶´1
-M	java:S106"+Replace this use of System.out by a logger.(öá¦¶øÿÿÿÿ8‘¦Æ¶´1
-O
-java:S1135…"2Complete the task associated to this TODO comment.(±‚Á_8‘¦Æ¶´1
-H	java:S106›"+Replace this use of System.out by a logger.(ğÚ›8’¦Æ¶´1
-H	java:S106µ"+Replace this use of System.out by a logger.(ÕÀèÃ8”¦Æ¶´1
+java:S1124)"EReorder the modifiers to comply with the Java Language Specification.(Ì½×Ü8¦ŒÈšº1
+G	java:S106."+Replace this use of System.out by a logger.(Ãµğš8§ŒÈšº1
+]	java:S125/"<This block of commented-out lines of code should be removed.(ğ†ñôıÿÿÿÿ8¨ŒÈšº1
+X	java:S125?"<This block of commented-out lines of code should be removed.(–¬§¡8ªŒÈšº1
+G	java:S106D"+Replace this use of System.out by a logger.(ˆ¼Ğ²8«ŒÈšº1
+G	java:S106Q"+Replace this use of System.out by a logger.(øÿà8«ŒÈšº1
+G	java:S106["+Replace this use of System.out by a logger.(ˆ¼Ğ²8¬ŒÈšº1
+G	java:S106g"+Replace this use of System.out by a logger.(¢†˜ı8­ŒÈšº1
+G	java:S106y"+Replace this use of System.out by a logger.(ğÚ›8¯ŒÈšº1
+M	java:S106‡"+Replace this use of System.out by a logger.(öá¦¶øÿÿÿÿ8°ŒÈšº1
+H	java:S106 "+Replace this use of System.out by a logger.(ğÚ›8²ŒÈšº1
+H	java:S106º"+Replace this use of System.out by a logger.(ÕÀèÃ8¶ŒÈšº1
+<
+java:S2153é"Remove the boxing of "credit".(ÁÑü½8ºŒÈšº1
+f
+java:S2153é"HRemove the boxing to "Double"; The argument is already of the same type.(ÁÑü½8»ŒÈšº1
 H
-java:S1128"+Remove this unused import 'common.MD5Util'.(•µ–‹8–¦Æ¶´1
+java:S1128"+Remove this unused import 'common.MD5Util'.(•µ–‹8¼ŒÈšº1
+S
+java:S1128"6Remove this unused import 'javax.annotation.Resource'.(î¾Ì—8¼ŒÈšº1
 D
-java:S1068!"'Remove this unused "log" private field.(Ì½×Ü8–¦Æ¶´1
+java:S1068)"'Remove this unused "log" private field.(Ì½×Ü8½ŒÈšº1

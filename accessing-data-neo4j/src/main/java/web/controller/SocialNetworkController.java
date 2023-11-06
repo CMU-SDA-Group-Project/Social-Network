@@ -47,4 +47,9 @@ public class SocialNetworkController {
     public AddCreditResponse addCredit(@Valid @RequestBody AddCreditRequest request) {
         return socialNetwork.addCredit(request);
     }
+
+    @PostMapping("/getCredit")
+    public GetCreditResponse getCredit(@Valid @RequestBody GetCreditRequest request) {
+        return socialNetwork.getCredit(request);
+    }
 }
