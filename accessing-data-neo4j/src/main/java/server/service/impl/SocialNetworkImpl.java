@@ -2,25 +2,29 @@ package server.service.impl;
 
 import api.req.*;
 import api.res.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Constants;
-import common.MD5Util;
 import common.RedisUtil;
-import core.Friend;
-import core.FriendRepository;
-import core.Person;
-import core.PersonRepository;
+import core.*;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.concurrent.ListenableFuture;
 import server.service.SocialNetworkService;
 import web.SocialNetworkApplication;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,7 +42,18 @@ public class SocialNetworkImpl implements SocialNetworkService {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private KafkaTemplate<String, Object> kafkaTemplate;
+
+    @Autowired
+    private ScheduledExecutorService scheduledExecutorService;
+
+    @Value("${kafka.topic.delayed-removal}")
+    String delayedRemovalTopic;
+
     private final static Logger log = LoggerFactory.getLogger(SocialNetworkApplication.class);
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public CreateUserResponse createUser(CreateUserRequest request) {
@@ -211,6 +226,20 @@ public class SocialNetworkImpl implements SocialNetworkService {
 
             redisUtil.zRemove(key, val);
 
+            //delayed removal, wait 300ms to remove again
+            // use async to avoid blocking
+            // Schedule delayed removal task
+            CompletableFuture.runAsync(() -> {
+                try {
+                    Thread.sleep(300); // Wait for 300 milliseconds
+                    redisUtil.zRemove(key, val); // Perform the removal again
+
+                } catch (Exception e) {
+                    sendMessage("delayed-removal", key+ " " + val);
+                }
+            }, scheduledExecutorService);
+
+
             response.setSuccess(true);
         } catch (Exception e) {
             response.setSuccess(false);
@@ -254,4 +283,35 @@ public class SocialNetworkImpl implements SocialNetworkService {
         return response;
 
     }
+
+    public void sendMessage(String topic, String m) {
+
+        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(topic, m);
+        future.addCallback(result -> log.info("Sent message=[{}] with offset=[{}]", m,
+                result.getRecordMetadata().offset()), ex -> log.error("Unable to send message=[{}] due to : {}", m,
+                ex.getMessage()));
+    }
+
+    @KafkaListener(topics = {"${kafka.topic.delayed-removal}"}, groupId = "group1")
+    public void consumeMessage(ConsumerRecord<String, String> msgConsumerRecord) {
+        try {
+            String s = msgConsumerRecord.value();
+            String key = s.split(" ")[0];
+            String val = s.split(" ")[1];
+            CompletableFuture.runAsync(() -> {
+                try {
+                    Thread.sleep(300); // Wait for 300 milliseconds
+                    redisUtil.zRemove(key, val); // Perform the removal again
+                    // Optionally send a message after removal
+
+                } catch (Exception e) {
+                    sendMessage("delayed-removal", s);
+                }
+            }, scheduledExecutorService);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
