@@ -302,8 +302,6 @@ public class SocialNetworkImpl implements SocialNetworkService {
                 try {
                     Thread.sleep(300); // Wait for 300 milliseconds
                     redisUtil.zRemove(key, val); // Perform the removal again
-                    // Optionally send a message after removal
-
                 } catch (Exception e) {
                     sendMessage("delayed-removal", s);
                 }

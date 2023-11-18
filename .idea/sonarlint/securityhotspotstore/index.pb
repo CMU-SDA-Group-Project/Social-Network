@@ -67,11 +67,5 @@ B
 docker-compose.yml,3\5\35b8c13cf2eb2a194eada000eb310d65aed53b2a
 n
 >accessing-data-neo4j/src/main/java/web/config/KafkaConfig.java,9\4\94fa6a2ccc8ebf960e33e8b9ae54730ee01dfcfa
-d
-4accessing-data-neo4j/src/main/java/core/Message.java,c\c\ccf6d0b49643514eadb447239ba9a9c8657da34c
-j
-:accessing-data-neo4j/src/main/java/core/MessageMapper.java,8\8\88ef297700b8716e04d90fed83426129d2af3fc2
-f
-6accessing-data-neo4j/src/main/java/core/MyMessage.java,a\a\aa27a63ab43ea6b7d86ca8f389456347f24462f9
-w
-Gaccessing-data-neo4j/src/main/java/common/ScheduledExecutorService.java,d\f\df5caa2a59074af3bce296d55429ff9c1eb4cda2
+l
+<accessing-data-neo4j/src/main/java/web/config/WebConfig.java,3\6\36340465e33cb07d4caf84acacb91f82bb5cbf0e
