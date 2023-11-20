@@ -67,5 +67,3 @@ B
 docker-compose.yml,3\5\35b8c13cf2eb2a194eada000eb310d65aed53b2a
 n
 >accessing-data-neo4j/src/main/java/web/config/KafkaConfig.java,9\4\94fa6a2ccc8ebf960e33e8b9ae54730ee01dfcfa
-l
-<accessing-data-neo4j/src/main/java/web/config/WebConfig.java,3\6\36340465e33cb07d4caf84acacb91f82bb5cbf0e

@@ -127,6 +127,9 @@ public class SocialNetworkImpl implements SocialNetworkService {
             if (friend == null) {
                 throw new Exception("friend not found");
             }
+            if(request.getUserName().equals(request.getFriendName())){
+                throw new Exception("cannot add yourself as friend");
+            }
             Friend friend1 = Friend.builder().person(person).friend(friend).build();
             Friend friend2 = Friend.builder().person(friend).friend(person).build();
             friendRepository.save(friend1);
