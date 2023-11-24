@@ -52,4 +52,9 @@ public class SocialNetworkController {
     public GetCreditResponse getCredit(@Valid @RequestBody GetCreditRequest request) {
         return socialNetwork.getCredit(request);
     }
+
+    @GetMapping("/getTopList")
+    public GetTopListResponse getTopList() {
+        return socialNetwork.getTopList();
+    }
 }

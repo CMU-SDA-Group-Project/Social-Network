@@ -12,4 +12,5 @@ public interface SocialNetworkService {
     GetFriendsResponse getFriends(GetFriendsRequest request);
     AddCreditResponse addCredit(AddCreditRequest request);
     GetCreditResponse getCredit(GetCreditRequest request);
+    GetTopListResponse getTopList();
 }

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -22,7 +23,9 @@ import web.SocialNetworkApplication;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -285,6 +288,32 @@ public class SocialNetworkImpl implements SocialNetworkService {
         }
         return response;
 
+    }
+
+    @Override
+    public GetTopListResponse getTopList() {
+        GetTopListResponse response = new GetTopListResponse();
+        try {
+            // get top 10
+            String key = "credit";
+            Set<ZSetOperations.TypedTuple<String>> top10 = redisUtil.zReverseRangeWithScores(key, 0, 9);
+            List<Person> top10List = new ArrayList<>();
+
+            for (ZSetOperations.TypedTuple<String> tuple : top10) {
+                System.out.println(tuple.getValue() + ": " + tuple.getScore());
+                Person person = new Person();
+                person.setName(tuple.getValue());
+                person.setCredit(Double.valueOf(tuple.getScore()).longValue());
+                top10List.add(person);
+            }
+            response.setTopList(top10List);
+            response.setSuccess(true);
+        }
+        catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
+        }
+        return response;
     }
 
     public void sendMessage(String topic, String m) {
