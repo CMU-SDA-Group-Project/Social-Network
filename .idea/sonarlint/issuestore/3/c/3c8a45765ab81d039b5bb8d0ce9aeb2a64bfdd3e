@@ -1,0 +1,15 @@
+
+l
+java:S2259Ô"NA "NullPointerException" could be thrown; "multiSetIfAbsent" is nullable here.(¼óœÑ8Ö¾Ô™º1
+b
+java:S2259‘"DA "NullPointerException" could be thrown; "setBit" is nullable here.(µÐñ—8Ö¾Ô™º1
+l
+java:S2259«"IA "NullPointerException" could be thrown; "setIfAbsent" is nullable here.(££›‰ùÿÿÿÿ8Ö¾Ô™º1
+_
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8ÅßÚ™º1
+j
+java:S1128"HRemove this unused import 'org.springframework.dao.DataAccessException'.(·È³÷ûÿÿÿÿ8—ÝÛ™º1
+s
+java:S1128"VRemove this unused import 'org.springframework.data.redis.connection.RedisConnection'.(›Ïš£8—ÝÛ™º1
+p
+java:S1128"NRemove this unused import 'org.springframework.data.redis.core.RedisCallback'.(¤ÝúÝýÿÿÿÿ8—ÝÛ™º1
