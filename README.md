@@ -84,5 +84,3 @@ The APIs are listed below:
     }
 
 + /social/getTopList: Get
-
-
