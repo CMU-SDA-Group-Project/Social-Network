@@ -1,5 +1,5 @@
 # Use the official Neo4j image
-FROM neo4j:4.2
+FROM neo4j:4.4.28
 
 # Set environment variables for Neo4j
 # Use the default username 'neo4j' and set a password of at least 8 characters
